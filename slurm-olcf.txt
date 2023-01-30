@@ -15,33 +15,6 @@ Autoscale = $Autoscale
     SubnetId = $SubnetId
     Region = $Region
     KeyPairLocation = ~/.ssh/cyclecloud.pem
-    Cloud-Init =  '''#!/bin/bash
-set -x
-exec 1>/var/log/cyclecloud_cloud_init.log 2>&1
-# OS Check and set
-. /etc/os-release
-if [[ "$ID" == "ubuntu" ]]; then
-  pkgmgr="apt"
-  localDisk="/mnt"
-  apt install -y libevent-dev
-elif [[ "$ID" =~ ^(centos|redhat|rhel|almalinux)$ ]]; then
-  pkgmgr="yum"
-  localDisk="/mnt/resource"
-  yum install -y libevent-devel
-else
-  exit 1
-fi
-# Download PMIX
-wget https://github.com/openpmix/openpmix/archive/refs/tags/v3.1.6.tar.gz -O /tmp/openpmix-v3.1.6.tar.gz
-# Install PMIx
-mkdir -p /opt/pmix/v3
-${pkgmgr} install -y libevent-dev
-tar xzf /tmp/openpmix-v3.1.6.tar.gz -C /tmp
-cd /tmp/openpmix-3.1.6
-./autogen.sh
-./configure --prefix=/opt/pmix/v3
-make -j install >/dev/null
-'''
 
     # Slurm autoscaling supports both Terminate and Deallocate shutdown policies
     ShutdownPolicy = $configuration_slurm_shutdown_policy
@@ -257,7 +230,7 @@ Order = 10
         Label = GPU VM Type
         Description = The VM type for GPU execute nodes
         ParameterType = Cloud.MachineType
-        DefaultValue = Standard_ND96asmr_v4
+        DefaultValue = Standard_ND96amsr_A100_v4
 
         [[[parameter CPUMachineType]]]
         Label = CPU VM Type
