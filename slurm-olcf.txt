@@ -92,7 +92,8 @@ Autoscale = $Autoscale
         [[[cluster-init cyclecloud/slurm:scheduler]]]
 
         [[[network-interface eth0]]]
-        AssociatePublicIpAddress = $UsePublicNetwork
+	NetworkInterfaceId = $NetworkInterfaceId
+#        AssociatePublicIpAddress = $UsePublicNetwork
 
         [[[volume sched]]]
         Size = 30
@@ -219,6 +220,11 @@ Order = 10
         Description = The VM type for scheduler node
         ParameterType = Cloud.MachineType
         DefaultValue = Standard_E4_v4
+	
+	[[[parameter NetworkInterfaceId]]]
+	Label = Azure NIC
+	Description = The Resource ID of the Azure NIC with static IP
+	Config.ParameterType = String
 
         [[[parameter loginMachineType]]]
         Label = Login node VM Type
